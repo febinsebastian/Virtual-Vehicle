@@ -21,12 +21,12 @@ const getOdometerInfo = async(req, res, next) =>{
     let odometer;
     try {
         odometer = await Odometer.find({vehicleId: vId}).sort({_id:-1}).limit(1);
-        console.log(odometer);
     } catch (error) {
         console.log(error,message);
         return next(error);
     }
-    res.json(odometer.map(item => item.toObject({getters: true})));
+    res.json(odometer[0].toObject({getters: true}));
+    //res.json(odometer.map(item => item.toObject({getters: true})));
 };
 
 exports.getOdometerInfo = getOdometerInfo;

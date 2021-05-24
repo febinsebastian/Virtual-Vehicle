@@ -4,6 +4,6 @@ const router = express.Router();
 
 odometerController = require('../controllers/odometer-controller');
 
-router.get('/odometer', odometerController.getOdometerInfo);
+router.get('/odometer/:vId', odometerController.getOdometerInfo);
 
 module.exports = router;

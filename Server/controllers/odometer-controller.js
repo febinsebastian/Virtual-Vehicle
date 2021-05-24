@@ -1,12 +1,33 @@
 httpRequest = require('../model/http-request');
+Odometer = require('../model/odometer');
+const vehicleId = '1234567890ABCD1234';
 
-httpRequest.httpGetRequest({path:'1234567890ABCD1234/location'}).then((response) =>{
-    console.log(response);
+httpRequest.httpGetRequest({path:vehicleId+'/odometer'}).then((response) =>{
+    //addOdometerInfo(response);
 });
 
-const getOdometerInfo = (req, res, next) =>{
-    res.json({message:'it is working'});
-    
+const addOdometerInfo = async(params) =>{
+    params['vehicleId'] = vehicleId;
+    const odometerInfo = new Odometer(params);
+    try {
+        await odometerInfo.save();
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const getOdometerInfo = async(req, res, next) =>{
+    const vId = req.params.vId;
+    let odometer;
+    try {
+        odometer = await Odometer.find({vehicleId: vId}).sort({_id:-1}).limit(1);
+        console.log(odometer);
+    } catch (error) {
+        console.log(error,message);
+        return next(error);
+    }
+    res.json(odometer.map(item => item.toObject({getters: true})));
 };
 
 exports.getOdometerInfo = getOdometerInfo;
+exports.addOdometerInfo = addOdometerInfo;

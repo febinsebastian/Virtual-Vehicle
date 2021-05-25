@@ -2,44 +2,38 @@ import React, { useEffect, useState } from 'react'
 
 const Tyre = () => {
     const [tyre, setTyreInfo] = useState();
-    const [count, setCount] = useState(0);
     useEffect(() => {
-        /*
         const getTyreInfo = async() => {
-            const response = await fetch('http://localhost:8000/vehicle/odometer/1234567890ABCD1234');
+            const response = await fetch('http://localhost:8000/vehicle/tyre/1234567890ABCD1234');
             const responseData = await response.json();
-            setTyreInfo(responseData);
-            setCount(10)
+            console.log(responseData);
+            setTyreInfo(()=>responseData);
         };
-        getTyreInfo();*/
-        fetch('http://localhost:8000/vehicle/odometer/1234567890ABCD1234').then(data =>{
-            const resp = data.json();
-            console.log(resp);
-            setTyreInfo(resp);
-            setCount(10)
-        });
+        getTyreInfo();
     }, [])
     return (
-        <div>
-            <table className="table table-bordered">
+        <div className="card">
+        <div className="card-header text-center">Tyre Pressures</div>
+        <div className="card-body">
+            {tyre && <table className="table table-bordered">
             <tbody>
                 <tr>
-                    <td>{count}</td>
+                    <td></td>
                     <td>Left</td>
                     <td>Right</td>
                 </tr>
                 <tr>
                     <td>Front</td>
-                    <td>303</td>
-                    <td>404</td>
+                    <td>{tyre.tirepressurefrontleft.value}</td>
+                    <td>{tyre.tirepressurefrontright.value}</td>
                 </tr>
                 <tr>
                     <td>Rear</td>
-                    <td>404</td>
-                    <td>404</td>
+                    <td>{tyre.tirepressurerearleft.value}</td>
+                    <td>{tyre.tirepressurerearright.value}</td>
                 </tr></tbody>
-            </table>
-        </div>
+            </table>}
+        </div></div>
     )
 }
 

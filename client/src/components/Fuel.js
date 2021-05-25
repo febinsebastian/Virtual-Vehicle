@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Chart } from "react-google-charts";
 
 const Fuel = () => {
     const [fuel, setFuel] = useState();
@@ -13,8 +14,7 @@ const Fuel = () => {
                 }
                 const response = await fetch('https://api.mercedes-benz.com/experimental/connectedvehicle_tryout/v2/vehicles/1234567890ABCD1234/fuel',options);
                 const responseData = await response.json();
-                setFuel(responseData.fuellevelpercent);
-                console.log(responseData);
+                setFuel(() => responseData.fuellevelpercent.value);
             } catch (error) {
                 console.log(error.message);
             }
@@ -23,8 +23,25 @@ const Fuel = () => {
         getFuelInfo();
     }, []);
     return (
-        <div>
-            <h2>{6+7}</h2>
+        <div className="center">
+        {fuel &&
+            <Chart
+                width={150}
+                height={150}
+                chartType="Gauge"
+                data={[
+                  ['Label', 'Value'],
+                  ['Fuel', fuel],
+                ]}
+                options={{
+                  redFrom: 0,
+                  redTo: 10,
+                  yellowFrom: 10,
+                  yellowTo: 20,
+                  minorTicks: 5,
+                }}
+                rootProps={{ 'data-testid': '1' }}
+                />}
         </div>
     )
 }

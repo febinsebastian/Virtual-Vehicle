@@ -15,7 +15,7 @@ function App() {
     useEffect(() => {
         const getCarsInfo = async() => {
             try {
-                const response = await fetch('http://localhost:8000/vehicle/vehicles');
+                const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/vehicles');
                 const responseData = await response.json();
                 setCarsInfo(()=>responseData);
                 setVehicleId(()=>responseData[0].id);

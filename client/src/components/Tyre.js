@@ -6,7 +6,7 @@ const Tyre = props => {
     const [tyre, setTyreInfo] = useState();
     useEffect(() => {
         const getTyreInfo = async() => {
-            const response = await fetch(`http://localhost:8000/vehicle/tyre/${vehicleId}`);
+            const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/tyre/${vehicleId}`);
             const responseData = await response.json();
             setTyreInfo(()=>responseData);
         };

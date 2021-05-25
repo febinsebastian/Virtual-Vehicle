@@ -7,7 +7,7 @@ const Location = () => {
     useEffect(() => {
         const getLocationInfo = async() => {
             try {
-                const response = await fetch(`http://localhost:8000/vehicle/location/${vehicleId}`);
+                const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/location/${vehicleId}`);
                 const responseData = await response.json();
                 setLocationInfo(()=>responseData);
             } catch (error) {

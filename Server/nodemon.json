@@ -1,0 +1,8 @@
+{
+    "env": {
+        "DB_USER": "febin",
+        "DB_PASSWORD": "A7RFf15lwmRzl2jK",
+        "DB_NAME": "vehicle"
+
+    }
+}

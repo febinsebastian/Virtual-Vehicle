@@ -7,7 +7,7 @@ const Odometer = () => {
     useEffect(() => {
         const getOdometerInfo = async() => {
             try {
-                const response = await fetch(`http://localhost:8000/vehicle/odometer/${vehicleId}`);
+                const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/odometer/${vehicleId}`);
                 const responseData = await response.json();
                 setOdometerInfo(()=>responseData);
                 console.log(odometer);

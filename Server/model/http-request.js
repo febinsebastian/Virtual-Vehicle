@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 
 const httpGetRequest = async(params) =>{
     const URL = 'https://api.mercedes-benz.com/experimental/connectedvehicle_tryout/v2/vehicles/'+params.path;
+    console.log(URL);
     let data;
     const options = {
         headers:{

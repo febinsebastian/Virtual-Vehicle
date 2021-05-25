@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
-
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 const Location = () => {
+    const vehicleId = useParams().vehicleId;
     const [location, setLocationInfo] = useState();
     useEffect(() => {
         const getLocationInfo = async() => {
             try {
-                const response = await fetch('http://localhost:8000/vehicle/location/1234567890ABCD1234');
+                const response = await fetch(`http://localhost:8000/vehicle/location/${vehicleId}`);
                 const responseData = await response.json();
                 setLocationInfo(()=>responseData);
             } catch (error) {

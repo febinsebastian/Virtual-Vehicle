@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const Odometer = () => {
+    const vehicleId = useParams().vehicleId;
     const [odometer, setOdometerInfo] = useState();
     useEffect(() => {
         const getOdometerInfo = async() => {
             try {
-                const response = await fetch('http://localhost:8000/vehicle/odometer/1234567890ABCD1234');
+                const response = await fetch(`http://localhost:8000/vehicle/odometer/${vehicleId}`);
                 const responseData = await response.json();
                 setOdometerInfo(()=>responseData);
                 console.log(odometer);

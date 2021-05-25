@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-const Tyre = () => {
+const Tyre = props => {
+    const vehicleId = useParams().vehicleId;
     const [tyre, setTyreInfo] = useState();
     useEffect(() => {
         const getTyreInfo = async() => {
-            const response = await fetch('http://localhost:8000/vehicle/tyre/1234567890ABCD1234');
+            const response = await fetch(`http://localhost:8000/vehicle/tyre/${vehicleId}`);
             const responseData = await response.json();
-            console.log(responseData);
             setTyreInfo(()=>responseData);
         };
         getTyreInfo();

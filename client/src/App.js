@@ -1,17 +1,39 @@
 import './App.css';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
 
 import MainHeader from './components/MainHeader';
 import Odometer from './components/Odometer';
 import Fuel from './components/Fuel';
 import Tyre from './components/Tyre';
 import Location from './components/Location';
+import CarList from './components/CarList';
 
 function App() {
-  return (
-    <Router>
+  const [carList, setCarsInfo] = useState();
+  const [vehicleId, setVehicleId] = useState();
+    useEffect(() => {
+        const getCarsInfo = async() => {
+            try {
+                const response = await fetch('http://localhost:8000/vehicle/vehicles');
+                const responseData = await response.json();
+                setCarsInfo(()=>responseData);
+                setVehicleId(()=>responseData[0].id);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        getCarsInfo();
+    }, []);
+
+    const routes = (
+      <Switch>
       <Route path="/" exact>
-      <MainHeader/>
+      <div className="container mt-3">
+        <div className="row"><CarList cars={carList} /></div>
+      </div>
+      </Route>
+      <Route path="/:vehicleId/vehicles" exact>
       <div className="container mt-3">
         <div className="row">
           <div className="col"><Tyre/></div>
@@ -19,10 +41,18 @@ function App() {
           <div className="col"><Fuel/></div>
         </div>
         <div className="row mt-3">
-          <div className="col"><Location/></div>
+          <div className="col-sm"><Location/></div>
         </div>
       </div>
       </Route>
+    </Switch>
+    )
+  return (
+    <Router>
+      <MainHeader/>
+      <main>
+        {routes}
+      </main>
     </Router>
   );
 }

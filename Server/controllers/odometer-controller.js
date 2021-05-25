@@ -1,13 +1,7 @@
 httpRequest = require('../model/http-request');
 Odometer = require('../model/odometer');
-const vehicleId = '1234567890ABCD1234';
-
-httpRequest.httpGetRequest({path:vehicleId+'/odometer'}).then((response) =>{
-    //addOdometerInfo(response);
-});
 
 const addOdometerInfo = async(params) =>{
-    params['vehicleId'] = vehicleId;
     const odometerInfo = new Odometer(params);
     try {
         await odometerInfo.save();

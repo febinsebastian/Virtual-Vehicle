@@ -1,11 +1,9 @@
+const schedule = require('node-schedule');
 httpRequest = require('../model/http-request');
 Vehicle = require('../model/vehicle');
-const vehicleId = '1234567890ABCD1234';
-
-httpRequest.httpGetRequest({path:vehicleId}).then((response) =>{
-    //console.log(response);
-    //addVehicleInfo(response);
-});
+odometerController = require('../controllers/odometer-controller');
+tyreController = require('../controllers/tyre-controller');
+locationController = require('../controllers/location-controller');
 
 const addVehicleInfo = async(params) =>{
     try {
@@ -31,7 +29,6 @@ const getVehicleInfo = async(req, res, next) =>{
     res.json(vehicle[0].toObject({getters: true}));
 };
 const getAllVehicles = async(req, res, next) =>{
-    const vId = req.params.vId;
     let vehicle;
     try {
         vehicle = await Vehicle.find();
@@ -41,6 +38,35 @@ const getAllVehicles = async(req, res, next) =>{
     }
     res.json(vehicle.map(item => item.toObject({getters: true})));
 };
+const scheduledTask = () => {
+    httpRequest.httpGetRequest({path:''}).then((resp) =>{
+        for(let i=0;i<resp.length;i++){
+            const vehicleId = resp[i].id;
+            httpRequest.httpGetRequest({path:vehicleId+'/tires'}).then((response) =>{
+                response['vehicleId'] = vehicleId;
+                tyreController.addTyreInfo(response);
+            });
+            httpRequest.httpGetRequest({path:vehicleId}).then((response) =>{
+                response['vehicleId'] = vehicleId;
+                addVehicleInfo(response);
+            });
+            httpRequest.httpGetRequest({path:vehicleId+'/odometer'}).then((response) =>{
+                response['vehicleId'] = vehicleId;
+                odometerController.addOdometerInfo(response);
+            });
+            httpRequest.httpGetRequest({path:vehicleId+'/location'}).then((response) =>{
+                response['vehicleId'] = vehicleId;
+                locationController.addLocationInfo(response);
+            });
+        }
+    });
+}
+
+//scheduledTask();
+
+const job = schedule.scheduleJob('42 * * * *', function(){
+    console.log('The answer to life, the universe, and everything!');
+});
 
 exports.getVehicleInfo = getVehicleInfo;
 exports.addVehicleInfo = addVehicleInfo;

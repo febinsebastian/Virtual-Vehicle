@@ -7,7 +7,6 @@ const MainHeader = () => {
             <div className="container-fluid">
                 <div className="row">
                 <div className="col"><Link to="/" className="navbar-brand mb-0 h1">Home</Link></div>
-                <div className="col"><a href="#" className="float-end">GitHub</a></div>
                 </div>
             </div>
         </nav>

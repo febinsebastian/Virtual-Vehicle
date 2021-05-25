@@ -1,13 +1,7 @@
 httpRequest = require('../model/http-request');
 Tyre = require('../model/tyre');
-const vehicleId = '1234567890ABCD1234';
-
-httpRequest.httpGetRequest({path:vehicleId+'/tires'}).then((response) =>{
-    //addTyreInfo(response);
-});
 
 const addTyreInfo = async(params) =>{
-    params['vehicleId'] = vehicleId;
     const tyreInfo = new Tyre(params);
     try {
         await tyreInfo.save();
@@ -15,7 +9,6 @@ const addTyreInfo = async(params) =>{
         console.log(error.message);
     }
 }
-
 const getTyreInfo = async(req, res, next) =>{
     const vId = req.params.vId;
     let tyre;

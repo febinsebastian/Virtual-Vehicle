@@ -50,6 +50,11 @@ function App() {
   return (
     <Router>
       <MainHeader/>
+      <div className="contrainer">
+        <div className="row">
+          <h2 className="text-center">Experimental Connected Vehicle</h2>
+        </div>
+      </div>
       <main>
         {routes}
       </main>

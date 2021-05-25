@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 const Location = () => {
     const vehicleId = useParams().vehicleId;
     const [location, setLocationInfo] = useState();
@@ -27,11 +28,11 @@ const Location = () => {
                 </tr>
                 <tr>
                     <td>Longitude</td>
-                    <td>{location.longitude.value}</td>
+                    <td>{Math.round(location.longitude.value * 1000) / 1000}</td>
                 </tr>
                 <tr>
                     <td>Latitude</td>
-                    <td>{location.latitude.value}</td>
+                    <td>{Math.round(location.latitude.value * 1000) / 1000}</td>
                 </tr></tbody>
             </table>}
         </div></div>
